@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">VeritranCodeExercise</string>
+    <string name="user_id">ID</string>
+    <string name="write_user_id">Ingrese ID de cliente</string>
+    <string name="view_button_login_text">Ingresar</string>
+    <string name="button_deposit_text">Depositar</string>
+    <string name="button_withdrawal_text">Retirar</string>
+    <string name="button_transfer_text">Transferir</string>
+    <string name="write_amount_to_operate">Ingrese monto para operar</string>
+    <string name="amount_to_operate_hint">Monto</string>
+    <string name="exit_text">Salir</string>
+    <string name="amount_empty">Ingrese un monto</string>
+    <string name="account_balance_label_text">Saldo en cuenta</string>
+    <string name="amount_to_transfer_label">Monto a transferir</string>
+    <string name="destiny_account_list_label">Destinatario</string>
+    <string name="actual_balance" formatted="false">USD %s</string>
+    <string name="destiny_hint">Alias ó CBU</string>
+    <string name="button_do_transfer_text">transferencias</string>
+    <string name="back_text">Volver</string>
+    <string name="addressee_empty">Ingrese un destinatario</string>
+    <string name="amount_to_transfer_empty">Ingrese un monto para transferir</string>
+</resources>
