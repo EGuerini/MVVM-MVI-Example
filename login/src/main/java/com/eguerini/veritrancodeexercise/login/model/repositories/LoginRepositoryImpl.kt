@@ -1,4 +1,4 @@
-package com.eguerini.veritrancodeexercise.login.data.repositories
+package com.eguerini.veritrancodeexercise.login.model.repositories
 
 import com.eguerini.veritrancodeexercise.login.domain.interactor.LoginRepository
 import com.eguerini.veritrancodeexercise.login.domain.result.LoginResult

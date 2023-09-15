@@ -1,7 +1,7 @@
 package com.eguerini.veritrancodeexercise.login
 
 import com.eguerini.veritrancodeexercise.login.domain.interactor.LoginRepository
-import com.eguerini.veritrancodeexercise.login.data.repositories.LoginRepositoryImpl
+import com.eguerini.veritrancodeexercise.login.model.repositories.LoginRepositoryImpl
 import com.eguerini.veritrancodeexercise.login.domain.result.LoginResult
 import com.eguerini.veritrancodeexercise.login.domain.usecases.LoginUseCaseImpl
 import com.eguerini.veritrancodeexercise.domain.entities.Account
