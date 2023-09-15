@@ -1,7 +1,5 @@
 package com.eguerini.veritrancodeexercise.ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eguerini.veritrancodeexercise.domain.entities.Account
@@ -10,7 +8,8 @@ import com.eguerini.veritrancodeexercise.domain.exception.LoginFailedException
 import com.eguerini.veritrancodeexercise.domain.vo.BalanceVO
 import com.eguerini.veritrancodeexercise.login.domain.interactor.LoginRepository
 import com.eguerini.veritrancodeexercise.model.state.MainState
-import com.eguerini.veritrancodeexercise.ui.intent.LoginIntent
+import com.eguerini.veritrancodeexercise.intent.LoginIntent
+import com.eguerini.veritrancodeexercise.login.domain.result.LoginResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,9 +22,6 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
 
     val userIntent = Channel<LoginIntent>(Channel.UNLIMITED)
     private var _mainState = MutableStateFlow<MainState>(MainState.Idle)
-
-    private var _exception = MutableLiveData<String>()
-    val exception: LiveData<String> get() = _exception
 
     val mainState: StateFlow<MainState>
         get() = _mainState

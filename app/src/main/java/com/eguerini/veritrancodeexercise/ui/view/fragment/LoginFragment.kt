@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ProgressBar
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.eguerini.veritrancodeexercise.R
 import com.eguerini.veritrancodeexercise.databinding.LoginFragmentLayoutBinding
 import com.eguerini.veritrancodeexercise.di.annotation.Choose
+import com.eguerini.veritrancodeexercise.domain.entities.Client
 import com.eguerini.veritrancodeexercise.model.entities.ClientModel
 import com.eguerini.veritrancodeexercise.model.state.MainState
-import com.eguerini.veritrancodeexercise.ui.intent.LoginIntent
+import com.eguerini.veritrancodeexercise.intent.LoginIntent
 import com.eguerini.veritrancodeexercise.ui.viewmodel.LoginViewModel
 import com.eguerini.veritrancodeexercise.ui.viewmodel.factory.ViewModelFactory
 import dagger.android.support.AndroidSupportInjection
@@ -82,12 +84,16 @@ class LoginFragment: DaggerFragment() {
         lifecycleScope.launch{
             viewModel.mainState.collect { mainState ->
                 when(mainState){
-                    is MainState.Login -> loginFragmentActionsObserver.goToFeaturesFragments(francisco)
+                    is MainState.Login -> loginFragmentActionsObserver.goToFeaturesFragments(mainState.loginResult.client)
                     is MainState.Error -> loginFragmentActionsObserver.showLoginError(mainState.error)
-                    MainState.Loading -> TODO("aca se puede mostrar un progress")
+                    MainState.Loading -> showProgress()
                 }
             }
         }
+    }
+
+    private fun showProgress() {
+        TODO("Not yet implemented")
     }
 
     private fun hideKeyboard(view: View) {
@@ -98,6 +104,6 @@ class LoginFragment: DaggerFragment() {
 }
 
 interface LoginFragmentActionsObserver{
-    fun goToFeaturesFragments(clientModel: ClientModel)
+    fun goToFeaturesFragments(client: Client)
     fun showLoginError(msg: String?)
 }

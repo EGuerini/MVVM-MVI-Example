@@ -5,7 +5,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.eguerini.veritrancodeexercise.R
 import com.eguerini.veritrancodeexercise.databinding.HostActivityBinding
+import com.eguerini.veritrancodeexercise.domain.entities.Client
+import com.eguerini.veritrancodeexercise.model.entities.AccountModel
 import com.eguerini.veritrancodeexercise.model.entities.ClientModel
+import com.eguerini.veritrancodeexercise.model.vo.BalanceVOView
 import com.eguerini.veritrancodeexercise.ui.view.fragment.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.AndroidInjection
@@ -67,8 +70,27 @@ class VeritranCodeExerciseHostActivity: DaggerAppCompatActivity(),
     //endregion
 
     //region LoginFragmentActionsObserver
-    override fun goToFeaturesFragments(clientModel: ClientModel) {
+    override fun goToFeaturesFragments(client: Client) {
         val bundle = Bundle()
+
+        val balance = BalanceVOView(
+            client.account.accountBalance.amount
+        )
+        val account = AccountModel(
+            client.account.accountNbr,
+            balance,
+            client.account.cbu,
+            client.account.alias
+        )
+        val clientModel = ClientModel(
+            client.id,
+            client.user,
+            client.password,
+            client.name,
+            client.surname,
+            account
+        )
+
         bundle.putParcelable(VERITRAN_CLIENT, clientModel)
         val featuresFragment = FeaturesFragment.getInstance(bundle)
         replaceFragment(featuresFragment, true, MAIN_TAG)

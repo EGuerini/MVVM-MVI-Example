@@ -1,4 +1,4 @@
-package com.eguerini.veritrancodeexercise.ui.intent
+package com.eguerini.veritrancodeexercise.intent
 
 import com.eguerini.veritrancodeexercise.model.entities.ClientModel
 
