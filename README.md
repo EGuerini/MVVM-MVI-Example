@@ -1,10 +1,4 @@
-**Confidential. *Please do not make public this document or your solution.***
-
-<p>
-<img width="500" src="https://i.imgur.com/jsTbKua.png">
-</p>
-
-# VeriTran's Code Exercise
+# Code Exercise
 
 # Background
 
