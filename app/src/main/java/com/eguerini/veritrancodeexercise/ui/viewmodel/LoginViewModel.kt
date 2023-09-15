@@ -3,48 +3,74 @@ package com.eguerini.veritrancodeexercise.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.eguerini.veritrancodeexercise.login.domain.interactor.LoginUseCase
-import com.eguerini.veritrancodeexercise.model.entities.ClientModel
+import androidx.lifecycle.viewModelScope
 import com.eguerini.veritrancodeexercise.domain.entities.Account
 import com.eguerini.veritrancodeexercise.domain.entities.Client
 import com.eguerini.veritrancodeexercise.domain.exception.LoginFailedException
 import com.eguerini.veritrancodeexercise.domain.vo.BalanceVO
+import com.eguerini.veritrancodeexercise.login.domain.interactor.LoginRepository
+import com.eguerini.veritrancodeexercise.model.state.MainState
+import com.eguerini.veritrancodeexercise.ui.intent.LoginIntent
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase): ViewModel() {
+class LoginViewModel @Inject constructor(private val loginRepository: LoginRepository): ViewModel() {
 
-    private var _loginResult = MutableLiveData<ClientModel>()
-    val loginResult: LiveData<ClientModel> get() = _loginResult
+    val userIntent = Channel<LoginIntent>(Channel.UNLIMITED)
+    private var _mainState = MutableStateFlow<MainState>(MainState.Idle)
 
     private var _exception = MutableLiveData<String>()
     val exception: LiveData<String> get() = _exception
 
-    fun doLogin(client: ClientModel, id: String){
-        try{
-            val balance = BalanceVO(
-                client.account.accountBalance.amount
-            )
-            val account = Account(
-                client.account.accountNbr,
-                balance,
-                client.account.cbu,
-                client.account.alias
-            )
-            val veritranClient = Client(
-                client.id,
-                client.user,
-                client.password,
-                client.name,
-                client.surname,
-                account
-            )
+    val mainState: StateFlow<MainState>
+        get() = _mainState
 
-            val loginResult = loginUseCase.execute(veritranClient, id)
-            if(loginResult.result){
-                _loginResult.value = client
+    init {
+        handleIntent()
+    }
+
+    private fun handleIntent(){
+        viewModelScope.launch {
+            userIntent.consumeAsFlow().collect {
+                when(it){
+                    is LoginIntent.RequestLogin -> doLogin(it)
+                }
             }
-        } catch (e: LoginFailedException){
-            _exception.value = e.message
+        }
+    }
+
+    private fun doLogin(loginIntent: LoginIntent.RequestLogin){
+        val balance = BalanceVO(
+            loginIntent.client.account.accountBalance.amount
+        )
+        val account = Account(
+            loginIntent.client.account.accountNbr,
+            balance,
+            loginIntent.client.account.cbu,
+            loginIntent.client.account.alias
+        )
+        val veritranClient = Client(
+            loginIntent.client.id,
+            loginIntent.client.user,
+            loginIntent.client.password,
+            loginIntent.client.name,
+            loginIntent.client.surname,
+            account
+        )
+
+        viewModelScope.launch {
+            _mainState.value = MainState.Loading
+
+            _mainState.value = try {
+                MainState.Login(loginRepository.login(veritranClient, loginIntent.id))
+            } catch (e: LoginFailedException) {
+                MainState.Error(e.message)
+            }
         }
     }
 }

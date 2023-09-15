@@ -74,9 +74,9 @@ class VeritranCodeExerciseHostActivity: DaggerAppCompatActivity(),
         replaceFragment(featuresFragment, true, MAIN_TAG)
     }
 
-    override fun showLoginError(msg: String) {
+    override fun showLoginError(msg: String?) {
         Snackbar
-            .make(binding.root, msg, Snackbar.LENGTH_LONG)
+            .make(binding.root, msg!!, Snackbar.LENGTH_LONG)
             .setBackgroundTint(ContextCompat.getColor(this, android.R.color.holo_red_light))
             .show()
     }

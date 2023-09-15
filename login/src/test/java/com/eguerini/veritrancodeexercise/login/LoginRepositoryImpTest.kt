@@ -3,7 +3,6 @@ package com.eguerini.veritrancodeexercise.login
 import com.eguerini.veritrancodeexercise.login.domain.interactor.LoginRepository
 import com.eguerini.veritrancodeexercise.login.data.repositories.LoginRepositoryImpl
 import com.eguerini.veritrancodeexercise.login.domain.result.LoginResult
-import com.eguerini.veritrancodeexercise.login.domain.usecases.LoginUseCaseImpl
 import com.eguerini.veritrancodeexercise.domain.entities.Account
 import com.eguerini.veritrancodeexercise.domain.entities.Client
 import com.eguerini.veritrancodeexercise.domain.exception.LoginFailedException
@@ -18,49 +17,45 @@ import org.mockito.junit.MockitoJUnitRunner
 import java.math.BigDecimal
 
 @RunWith(MockitoJUnitRunner::class)
-class LoginUseCaseImplTest {
+class LoginRepositoryImpTest {
 
     @Mock
-    private lateinit var SUT: LoginUseCaseImpl
+    private lateinit var SUT: LoginRepositoryImpl
 
     @Mock
     lateinit var account: Account
     @Mock
     lateinit var client: Client
-    @Mock
-    lateinit var loginRepository: LoginRepository
 
     @Before
     fun setup(){
         MockitoAnnotations.openMocks(this)
-        loginRepository = mock(LoginRepositoryImpl::class.java)
-        SUT = mock(LoginUseCaseImpl::class.java)
+        SUT = mock(LoginRepositoryImpl::class.java)
     }
 
-    @Test
-    fun login_ok(){
+    private fun givenAnClientAndAccount(){
         account = Account(
             accountBalance = BalanceVO(BigDecimal(100)),
             cbu = "1234567891011121314150",
             alias = "fran.guerini"
         )
         client = Client(id = "francisco", account = account)
+    }
 
-        lenient().`when`(SUT.execute(client, "francisco"))
+    @Test
+    fun login_ok(){
+        givenAnClientAndAccount()
+
+        lenient().`when`(SUT.login(client, "francisco"))
             .thenReturn(LoginResult(true, client))
     }
 
     @Test
     fun login_error_throwLoginFailedException(){
-        account = Account(
-            accountBalance = BalanceVO(BigDecimal(100)),
-            cbu = "1234567891011121314150",
-            alias = "fran.guerini"
-        )
-        client = Client(id = "francisco", account = account)
+        givenAnClientAndAccount()
 
-        lenient().`when`(SUT.execute(client, "pepe"))
-            .thenThrow(LoginFailedException::class.java)
+        lenient().`when`(SUT.login(client, "pepe"))
+            .thenThrow(RuntimeException::class.java)
     }
 
 

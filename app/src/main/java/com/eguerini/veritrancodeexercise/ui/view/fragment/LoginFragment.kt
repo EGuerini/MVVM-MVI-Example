@@ -6,16 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.eguerini.veritrancodeexercise.R
 import com.eguerini.veritrancodeexercise.databinding.LoginFragmentLayoutBinding
 import com.eguerini.veritrancodeexercise.di.annotation.Choose
 import com.eguerini.veritrancodeexercise.model.entities.ClientModel
+import com.eguerini.veritrancodeexercise.model.state.MainState
+import com.eguerini.veritrancodeexercise.ui.intent.LoginIntent
 import com.eguerini.veritrancodeexercise.ui.viewmodel.LoginViewModel
 import com.eguerini.veritrancodeexercise.ui.viewmodel.factory.ViewModelFactory
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 const val VERITRAN_CLIENT = "VERITRAN_CLIENT"
@@ -64,22 +68,26 @@ class LoginFragment: DaggerFragment() {
     private fun bindViews() {
         binding.viewButtonLogin.setOnClickListener {
             hideKeyboard(it)
-            when(val userId = binding.viewUserId.text.toString()){
+            lifecycleScope.launch {
+                when(val userId = binding.viewUserId.text.toString()) {
                     "" -> loginFragmentActionsObserver
-                        .showLoginError(this.getString(R.string.write_user_id))
-                    else -> viewModel.doLogin(francisco, userId)
+                        .showLoginError(getString(R.string.write_user_id))
+                    else -> viewModel.userIntent.send(LoginIntent.RequestLogin(francisco, userId))
+                }
             }
         }
     }
 
     private fun bindObservers() {
-        viewModel.loginResult.observe(viewLifecycleOwner, {
-            loginFragmentActionsObserver.goToFeaturesFragments(it)
-        })
-
-        viewModel.exception.observe(viewLifecycleOwner, {
-            loginFragmentActionsObserver.showLoginError(it)
-        })
+        lifecycleScope.launch{
+            viewModel.mainState.collect { mainState ->
+                when(mainState){
+                    is MainState.Login -> loginFragmentActionsObserver.goToFeaturesFragments(francisco)
+                    is MainState.Error -> loginFragmentActionsObserver.showLoginError(mainState.error)
+                    MainState.Loading -> TODO("aca se puede mostrar un progress")
+                }
+            }
+        }
     }
 
     private fun hideKeyboard(view: View) {
@@ -91,5 +99,5 @@ class LoginFragment: DaggerFragment() {
 
 interface LoginFragmentActionsObserver{
     fun goToFeaturesFragments(clientModel: ClientModel)
-    fun showLoginError(msg: String)
+    fun showLoginError(msg: String?)
 }
