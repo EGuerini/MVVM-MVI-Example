@@ -73,13 +73,13 @@ class LoginFragment: DaggerFragment() {
     }
 
     private fun bindObservers() {
-        viewModel.loginResult.observe(viewLifecycleOwner, {
+        viewModel.loginResult.observe(viewLifecycleOwner) {
             loginFragmentActionsObserver.goToFeaturesFragments(it)
-        })
+        }
 
-        viewModel.exception.observe(viewLifecycleOwner, {
+        viewModel.exception.observe(viewLifecycleOwner) {
             loginFragmentActionsObserver.showLoginError(it)
-        })
+        }
     }
 
     private fun hideKeyboard(view: View) {
