@@ -4,7 +4,7 @@ import com.eguerini.veritrancodeexercise.domain.entities.Account
 import com.eguerini.veritrancodeexercise.domain.entities.Client
 import com.eguerini.veritrancodeexercise.domain.vo.AmountToOperateVO
 import com.eguerini.veritrancodeexercise.domain.vo.BalanceVO
-import com.eguerini.veritrancodeexercise.transfer.data.repositories.TransferRepositoryImpl
+import com.eguerini.veritrancodeexercise.transfer.model.repositories.TransferRepositoryImpl
 import com.eguerini.veritrancodeexercise.transfer.domain.models.result.TransferResult
 import org.junit.Before
 import org.junit.Test

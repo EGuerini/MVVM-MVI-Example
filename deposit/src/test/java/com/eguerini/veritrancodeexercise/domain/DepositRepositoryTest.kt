@@ -1,6 +1,6 @@
 package com.eguerini.veritrancodeexercise.domain
 
-import com.eguerini.veritrancodeexercise.data.repositories.DepositRepositoryImpl
+import com.eguerini.veritrancodeexercise.model.repositories.DepositRepositoryImpl
 import com.eguerini.veritrancodeexercise.domain.models.result.DepositResult
 import com.eguerini.veritrancodeexercise.domain.entities.Account
 import com.eguerini.veritrancodeexercise.domain.entities.Client

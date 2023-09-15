@@ -1,4 +1,4 @@
-package com.eguerini.veritrancodeexercise.data.repositories
+package com.eguerini.veritrancodeexercise.model.repositories
 
 import com.eguerini.veritrancodeexercise.domain.interactor.DepositRepository
 import com.eguerini.veritrancodeexercise.domain.models.result.DepositResult

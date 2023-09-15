@@ -8,7 +8,7 @@ import com.eguerini.veritrancodeexercise.domain.exception.OverdraftException
 import com.eguerini.veritrancodeexercise.domain.vo.AmountToOperateVO
 import com.eguerini.veritrancodeexercise.domain.vo.BalanceVO
 import com.eguerini.veritrancodeexercise.transfer.domain.interactor.TransferRepository
-import com.eguerini.veritrancodeexercise.transfer.data.repositories.TransferRepositoryImpl
+import com.eguerini.veritrancodeexercise.transfer.model.repositories.TransferRepositoryImpl
 import com.eguerini.veritrancodeexercise.transfer.domain.models.result.TransferResult
 import com.eguerini.veritrancodeexercise.transfer.domain.usecases.TransferUseCase
 import org.junit.Before

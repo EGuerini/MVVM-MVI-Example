@@ -1,4 +1,4 @@
-package com.eguerini.veritrancodeexercise.transfer.data.repositories
+package com.eguerini.veritrancodeexercise.transfer.model.repositories
 
 import com.eguerini.veritrancodeexercise.domain.entities.Account
 import com.eguerini.veritrancodeexercise.domain.vo.AmountToOperateVO

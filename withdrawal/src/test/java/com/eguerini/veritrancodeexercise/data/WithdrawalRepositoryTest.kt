@@ -1,6 +1,6 @@
 package com.eguerini.veritrancodeexercise.data
 
-import com.eguerini.veritrancodeexercise.data.repositories.WithdrawalRepositoryImpl
+import com.eguerini.veritrancodeexercise.model.repositories.WithdrawalRepositoryImpl
 import com.eguerini.veritrancodeexercise.domain.models.result.WithdrawalResult
 import com.eguerini.veritrancodeexercise.domain.entities.Account
 import com.eguerini.veritrancodeexercise.domain.entities.Client

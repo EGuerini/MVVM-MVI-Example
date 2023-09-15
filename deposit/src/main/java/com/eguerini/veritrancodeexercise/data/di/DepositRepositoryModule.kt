@@ -1,7 +1,7 @@
 package com.eguerini.veritrancodeexercise.data.di
 
 import com.eguerini.veritrancodeexercise.domain.interactor.DepositRepository
-import com.eguerini.veritrancodeexercise.data.repositories.DepositRepositoryImpl
+import com.eguerini.veritrancodeexercise.model.repositories.DepositRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
